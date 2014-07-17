@@ -132,9 +132,10 @@ Then teach webpack those magic globals:
 ```
 // webpack.config.js
 
+// definePlugin takes raw strings and inserts them, so you can put strings of JS if you want.
 var definePlugin = new webpack.DefinePlugin({
-  __DEV__: JSON.parse(process.env.BUILD_DEV || 'true'),
-  __PRERELEASE__: JSON.parse(process.env.BUILD_PRERELEASE || 'false')
+  __DEV__: JSON.stringify(JSON.parse(process.env.BUILD_DEV || 'true')),
+  __PRERELEASE__: JSON.stringify(JSON.parse(process.env.BUILD_PRERELEASE || 'false'))
 });
 
 module.exports = {
@@ -218,3 +219,9 @@ if (window.location.pathname === '/feed') {}
 ```
 
 webpack will do the rest and generate extra **chunk** files and load them for you.
+
+## FAQ
+
+### webpack doesn't seem modular
+
+webpack is **extremely** modular. What makes webpack great is that it lets plugins inject themselves into more places in the build process when compared to alternatives like browserify and requirejs. Many things that may seem built into the core are just plugins that are loaded by default and can be overridden (i.e. the CommonJS require() parser).
