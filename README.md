@@ -115,8 +115,106 @@ module.exports = {
 
 ## 6. Feature flags
 
+We have code we want to gate only to our dev environments (like logging) and our internal dogfooding servers (like unreleased features we're testing with employees). In your code, refer to magic globals:
+
+```
+if (__DEV__) {
+  console.warn('Extra logging');
+}
+// ...
+if (__PRERELEASE__) {
+  showSecretFeature();
+}
+```
+
+Then teach webpack those magic globals:
+
+```
+// webpack.config.js
+
+var definePlugin = new webpack.DefinePlugin({
+  __DEV__: JSON.parse(process.env.BUILD_DEV || 'true'),
+  __PRERELEASE__: JSON.parse(process.env.BUILD_PRERELEASE || 'false')
+});
+
+module.exports = {
+  entry: './main.js',
+  output: {
+    filename: 'bundle.js'       
+  },
+  plugins: [definePlugin]
+};
+```
+
+Then you can build with `BUILD_DEV=1 BUILD_PRERELEASE=1 webpack` from the console. Note that since `webpack -p` runs uglify dead-code elimination, anything wrapped in one of these blocks will be stripped out, so you won't leak secret features or strings.
+
 ## 7. Multiple entrypoints
+
+Let's say you have a profile page and a feed page. You don't want to make the user download the code for the feed if they just want the profile. So make multiple bundles: create one "main module" (called an entrypoint) per page:
+
+```
+// webpack.config.js
+module.exports = {
+  entry: {
+    Profile: './profile.js',
+    Feed: './feed.js'
+  },
+  output: {
+    path: 'build',
+    filename: '[name].js' // Template based on keys in entry above
+  }
+};
+```
+
+For profile, insert `<script src="build/Profile.js"></script>` into your page. Do a similar thing for feed.
 
 ## 8. Optimizing common code
 
+Feed and Profile share a lot in common (like React and the common stylesheets and components). webpack can figure out what they have in common and make a shared bundle that can be cached between pages:
+
+```
+// webpack.config.js
+
+var webpack = require('webpack');
+
+var commonsPlugin =
+  new webpack.optimize.CommonsChunkPlugin('common.js');
+
+module.exports = {
+  entry: {
+    Profile: './profile.js',
+    Feed: './feed.js'
+  },
+  output: {
+    path: 'build',
+    filename: '[name].js' // Template based on keys in entry above
+  },
+  plugins: [commonsPlugin]
+};
+```
+
+Add `<script src="build/common.js"></script>` before the script tag you added in the previous step and enjoy the free caching.
+
 ## 9. Async loading
+
+CommonJS is synchronous but webpack provides a way to asynchronously specify dependencies. This is useful for client-side routers, where you want the router on every page, but you don't want to have to download features until you actually need them.
+
+Specify the **split point** where you want to load asynchronously. For example:
+
+```
+if (window.location.pathname === '/feed') {}
+  showLoadingState();
+  require.ensure([], function() { // this syntax is weird but it works
+    hideLoadingState();
+    require('./feed').show(); // when this function is called, the module is guaranteed to be synchronously available.
+  });
+} else if (window.location.pathname === '/profile') {
+  showLoadingState();
+  require.ensure([], function() {
+    hideLoadingState();
+    require('./profile').show();
+  });
+}
+```
+
+webpack will do the rest and generate extra **chunk** files and load them for you.
