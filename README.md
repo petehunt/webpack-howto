@@ -27,17 +27,17 @@ It supports AMD and CommonJS, among other module systems (Angular, ES6). If you 
 
 These are equivalent:
 
-```
+```js
 browserify main.js > bundle.js
 ```
 
-```
+```js
 webpack main.js bundle.js
 ```
 
 However, webpack is more powerful than Browserify, so you generally want to make a `webpack.config.js` to keep things organized:
 
-```
+```js
 // webpack.config.js
 module.exports = {
   entry: './main.js',
@@ -62,7 +62,7 @@ Switch to the directory containing `webpack.config.js` and run:
 
 webpack's equivalent of browserify transforms and RequireJS plugins is a **loader**. Here's how you can teach webpack to load CoffeeScript and Facebook JSX+ES6 support (you must `npm install jsx-loader coffee-loader`):
 
-```
+```js
 // webpack.config.js
 module.exports = {
   entry: './main.js',
@@ -82,7 +82,7 @@ module.exports = {
 
 First update your code to `require()` your static assets (named as they would with node's `require()`):
 
-```
+```js
 require('./bootstrap.css');
 require('./myapp.less');
 
@@ -94,7 +94,7 @@ When you require CSS (or less, etc), webpack inlines the CSS as a string inside 
 
 But you need to teach webpack to do this (again, with loaders):
 
-```
+```js
 // webpack.config.js
 module.exports = {
   entry: './main.js',
@@ -117,7 +117,7 @@ module.exports = {
 
 We have code we want to gate only to our dev environments (like logging) and our internal dogfooding servers (like unreleased features we're testing with employees). In your code, refer to magic globals:
 
-```
+```js
 if (__DEV__) {
   console.warn('Extra logging');
 }
@@ -129,7 +129,7 @@ if (__PRERELEASE__) {
 
 Then teach webpack those magic globals:
 
-```
+```js
 // webpack.config.js
 
 // definePlugin takes raw strings and inserts them, so you can put strings of JS if you want.
@@ -153,7 +153,7 @@ Then you can build with `BUILD_DEV=1 BUILD_PRERELEASE=1 webpack` from the consol
 
 Let's say you have a profile page and a feed page. You don't want to make the user download the code for the feed if they just want the profile. So make multiple bundles: create one "main module" (called an entrypoint) per page:
 
-```
+```js
 // webpack.config.js
 module.exports = {
   entry: {
@@ -173,7 +173,7 @@ For profile, insert `<script src="build/Profile.js"></script>` into your page. D
 
 Feed and Profile share a lot in common (like React and the common stylesheets and components). webpack can figure out what they have in common and make a shared bundle that can be cached between pages:
 
-```
+```js
 // webpack.config.js
 
 var webpack = require('webpack');
@@ -202,7 +202,7 @@ CommonJS is synchronous but webpack provides a way to asynchronously specify dep
 
 Specify the **split point** where you want to load asynchronously. For example:
 
-```
+```js
 if (window.location.pathname === '/feed') {}
   showLoadingState();
   require.ensure([], function() { // this syntax is weird but it works
