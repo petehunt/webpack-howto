@@ -78,6 +78,29 @@ module.exports = {
 };
 ```
 
+To enable requiring files without specifying the extension, you must add a `resolve.extensions` parameter specifying which files webpack searches for:
+
+```js
+// webpack.config.js
+module.exports = {
+  entry: './main.js',
+  output: {
+    filename: 'bundle.js'       
+  },
+  module: {
+    loaders: [
+      { test: /\.coffee$/, loader: 'coffee-loader' },
+      { test: /\.js$/, loader: 'jsx-loader?harmony' } // loaders can take parameters as a querystring
+    ]
+  },
+  resolve: {
+    // you can now require('file') instead of require('file.coffee')
+    extensions: ['', '.js', '.json', '.coffee'] 
+  }
+};
+```
+
+
 ## 5. Stylesheets and images
 
 First update your code to `require()` your static assets (named as they would with node's `require()`):
