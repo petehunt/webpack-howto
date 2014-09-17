@@ -243,6 +243,11 @@ if (window.location.pathname === '/feed') {}
 
 webpack will do the rest and generate extra **chunk** files and load them for you.
 
+## Additional resources
+
+Take a look at a real world example on how a successful team is leveraging webpack: http://youtu.be/VkTCL6Nqm6Y
+This is Pete Hunt as OSCon talking about webpack at Instagram.com
+
 ## FAQ
 
 ### webpack doesn't seem modular
