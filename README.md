@@ -226,7 +226,7 @@ CommonJS is synchronous but webpack provides a way to asynchronously specify dep
 Specify the **split point** where you want to load asynchronously. For example:
 
 ```js
-if (window.location.pathname === '/feed') {}
+if (window.location.pathname === '/feed') {
   showLoadingState();
   require.ensure([], function() { // this syntax is weird but it works
     hideLoadingState();
