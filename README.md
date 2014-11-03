@@ -243,6 +243,16 @@ if (window.location.pathname === '/feed') {
 
 webpack will do the rest and generate extra **chunk** files and load them for you.
 
+webpack will assume that those files are in your root directory when you load then into a html script tag for example. You can use `output.publicPath` to configure that.
+
+```js
+// webpack.config.js
+output: {
+    path: "/home/proj/public/assets", //path to where webpack will build your stuff
+    publicPath: "/assets/" //path that will be considered when requiring your files
+}
+```
+
 ## Additional resources
 
 Take a look at a real world example on how a successful team is leveraging webpack: http://youtu.be/VkTCL6Nqm6Y
