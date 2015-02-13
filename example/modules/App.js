@@ -1,7 +1,7 @@
 /** @jsx React.DOM */
 
 var React = require('react');
-var {Link} = require('react-router');
+var {Link, RouteHandler} = require('react-router');
 
 require('./App.css');
 
@@ -16,7 +16,7 @@ var App = React.createClass({
           </ul>
         </header>
 
-        <this.props.activeRouteHandler />
+        <RouteHandler />
       </div>
     );
   }
