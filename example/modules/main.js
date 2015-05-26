@@ -4,13 +4,16 @@ var App = require('./App');
 var Home = require('./Home');
 var About = require('./About');
 var React = require('react');
-var {DefaultRoute, Route, Routes} = require('react-router');
+var Router = require('react-router');
+var {DefaultRoute, Route, Routes} = Router;
 
-React.renderComponent((
-  <Routes location="history">
-    <Route path="/" handler={App}>
-      <DefaultRoute name="home" handler={Home} />
-      <Route name="about" handler={About} />
-    </Route>
-  </Routes>
-), document.body);
+var routes = (
+  <Route name="app" path="/" handler={App}>
+    <Route name="about" handler={About} />
+    <DefaultRoute name="home" handler={Home} />
+  </Route>
+);
+
+Router.run(routes, Router.HistoryLocation, function(Handler) {
+  React.render(<Handler/>, document.body);
+});
