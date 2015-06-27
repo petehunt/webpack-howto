@@ -10,18 +10,21 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "babel-core": "^5.6.15",
+    "babel-loader": "^5.2.2",
     "bundle-loader": "^0.5.0",
     "css-loader": "^0.9.0",
     "file-loader": "^0.7.2",
-    "jsx-loader": "^0.11.0",
     "less": "^1.7.5",
     "less-loader": "^0.7.7",
+    "node-libs-browser": "^0.5.2",
     "style-loader": "^0.8.0",
     "url-loader": "^0.5.5",
+    "webpack": "^1.9.13",
     "webpack-dev-server": "^1.6.5"
   },
   "dependencies": {
-    "react": "git://github.com/facebook/react.git#master",
-    "react-router": "git://github.com/rackt/react-router.git#master"
+    "react": "^0.13.3",
+    "react-router": "^0.13.3"
   }
 }
