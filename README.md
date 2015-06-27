@@ -60,7 +60,7 @@ Switch to the directory containing `webpack.config.js` and run:
 
 ## 4. Compile-to-JS languages
 
-webpack's equivalent of browserify transforms and RequireJS plugins is a **loader**. Here's how you can teach webpack to load CoffeeScript and Facebook JSX+ES6 support (you must `npm install jsx-loader coffee-loader`):
+webpack's equivalent of browserify transforms and RequireJS plugins is a **loader**. Here's how you can teach webpack to load CoffeeScript and Facebook JSX+ES6 support (you must `npm install babel-loader coffee-loader`):
 
 ```js
 // webpack.config.js
@@ -72,7 +72,7 @@ module.exports = {
   module: {
     loaders: [
       { test: /\.coffee$/, loader: 'coffee-loader' },
-      { test: /\.js$/, loader: 'jsx-loader?harmony' } // loaders can take parameters as a querystring
+      { test: /\.js$/, loader: 'babel-loader?stage=0' } // loaders can take parameters as a querystring
     ]
   }
 };

@@ -1,5 +1,3 @@
-/** @jsx React.DOM */
-
 var React = require('react');
 var {Link, RouteHandler} = require('react-router');
 
