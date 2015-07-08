@@ -21,7 +21,7 @@
     "webpack-dev-server": "^1.6.5"
   },
   "dependencies": {
-    "react": "git://github.com/facebook/react.git#master",
-    "react-router": "git://github.com/rackt/react-router.git#master"
+    "react": "^0.13.3",
+    "react-router": "^0.13.3"
   }
 }
