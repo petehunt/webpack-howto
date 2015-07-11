@@ -243,7 +243,7 @@ if (window.location.pathname === '/feed') {
 
 webpack will do the rest and generate extra **chunk** files and load them for you.
 
-webpack will assume that those files are in your root directory when you load then into a html script tag for example. You can use `output.publicPath` to configure that.
+webpack will assume that those files are in your root directory when you load them into a html script tag for example. You can use `output.publicPath` to configure that.
 
 ```js
 // webpack.config.js
