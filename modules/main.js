@@ -1,11 +1,11 @@
-/** @jsx React.DOM */
+import React from 'react';
+import Router from 'react-router'
 
-var App = require('./App');
-var Home = require('./Home');
-var About = require('./About');
-var React = require('react');
-var Router = require('react-router');
 var {DefaultRoute, Route, Routes} = Router;
+
+import App from './App';
+import Home from './Home';
+import About from './About';
 
 var routes = (
   <Route name="app" path="/" handler={App}>
