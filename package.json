@@ -1,0 +1,24 @@
+{
+  "name": "webpack-howto-example",
+  "version": "1.0.0",
+  "description": "Skeleton React app using webpack, less, JSX, ES6, and react-router.",
+  "main": "index.js",
+  "scripts": {
+    "start": "webpack-dev-server",
+    "test": "echo 'Error: no test specified' && exit 1"
+  },
+  "author": "https://github.com/petehunt",
+  "license": "ISC",
+  "devDependencies": {
+    "babel-loader": "*",
+    "css-loader": "*",
+    "less-loader": "*",
+    "style-loader": "*",
+    "webpack": "*",
+    "webpack-dev-server": "*"
+  },
+  "dependencies": {
+    "react": "*",
+    "react-router": "*"
+  }
+}

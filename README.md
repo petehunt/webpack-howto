@@ -1,8 +1,15 @@
 # webpack-howto
 
+## tl;dr
+
+```shell
+npm start
+open http://localhost:8080/webpack-dev-server/
+```
+
 ## Goal of this guide
 
-This is a cookbook of how to get things done with webpack. This includes most things we use at Instagram and nothing we don't use.
+This is a cookbook of how to get things done with [webpack](http://webpack.github.io/). This includes most things we use at Instagram and nothing we don't use.
 
 My advice: start with this as your webpack docs, then look at the official docs for clarification.
 
@@ -15,7 +22,6 @@ My advice: start with this as your webpack docs, then look at the official docs 
     * Packaging static assets like images and CSS
 
 ## 1. Why webpack?
-
 
   * **It's like browserify** but can split your app into multiple files. If you have multiple pages in a single-page app, the user only downloads code for just that page. If they go to another page, they don't redownload common code.
 
@@ -42,7 +48,7 @@ However, webpack is more powerful than Browserify, so you generally want to make
 module.exports = {
   entry: './main.js',
   output: {
-    filename: 'bundle.js'       
+    filename: 'bundle.js'
   }
 };
 ```
@@ -51,12 +57,30 @@ This is just JS, so feel free to put Real Code in there.
 
 ## 3. How to invoke webpack
 
+You should install webpack globally:
+
+```shell
+npm install -g webpack
+```
+
 Switch to the directory containing `webpack.config.js` and run:
 
   * `webpack` for building once for development
-  * `webpack -p` for building once for production (minification)
   * `webpack --watch` for continuous incremental build in development (fast!)
   * `webpack -d` to include source maps
+  * `webpack -p` for building once for production (minification)
+
+To run the wepback dev server, run:
+
+```shell
+npm start
+```
+
+Open it in a browser:
+
+```shell
+open http://localhost:8080/webpack-dev-server/
+```
 
 ## 4. Compile-to-JS languages
 
@@ -67,12 +91,12 @@ webpack's equivalent of browserify transforms and RequireJS plugins is a **loade
 module.exports = {
   entry: './main.js',
   output: {
-    filename: 'bundle.js'       
+    filename: 'bundle.js'
   },
   module: {
     loaders: [
       { test: /\.coffee$/, loader: 'coffee-loader' },
-      { test: /\.js$/, loader: 'babel-loader' }
+      { test: /\.js$/, exclude: /node_modules/, loader: 'babel-loader'}
     ]
   }
 };
@@ -85,21 +109,22 @@ To enable requiring files without specifying the extension, you must add a `reso
 module.exports = {
   entry: './main.js',
   output: {
-    filename: 'bundle.js'       
+    filename: 'bundle.js'
   },
   module: {
     loaders: [
       { test: /\.coffee$/, loader: 'coffee-loader' },
-      { test: /\.js$/, loader: 'babel-loader' }
+      { test: /\.js$/, exclude: /node_modules/, loader: 'babel-loader'}
     ]
   },
   resolve: {
     // you can now require('file') instead of require('file.coffee')
-    extensions: ['', '.js', '.json', '.coffee'] 
+    extensions: ['', '.js', '.json', '.coffee']
   }
 };
 ```
 
+[Read more about React on ES6+.](http://babeljs.io/blog/2015/06/07/react-on-es6-plus/)
 
 ## 5. Stylesheets and images
 
@@ -113,7 +138,7 @@ var img = document.createElement('img');
 img.src = require('./glyph.png');
 ```
 
-When you require CSS (or less, etc), webpack inlines the CSS as a string inside the JS bundle and `require()` will insert a `<style>` tag into the page. When you require images, webpack inlines a URL to the image into the bundle and returns it from `require()`.
+When you require CSS (or [less](http://lesscss.org/), etc), webpack inlines the CSS as a string inside the JS bundle and `require()` will insert a `<style>` tag into the page. When you require images, webpack inlines a URL to the image into the bundle and returns it from `require()`.
 
 But you need to teach webpack to do this (again, with loaders):
 
@@ -130,7 +155,7 @@ module.exports = {
     loaders: [
       { test: /\.less$/, loader: 'style-loader!css-loader!less-loader' }, // use ! to chain loaders
       { test: /\.css$/, loader: 'style-loader!css-loader' },
-      {test: /\.(png|jpg)$/, loader: 'url-loader?limit=8192'} // inline base64 URLs for <=8k images, direct URLs for the rest
+      { test: /\.(png|jpg)$/, loader: 'url-loader?limit=8192'} // inline base64 URLs for <=8k images, direct URLs for the rest
     ]
   }
 };
@@ -164,7 +189,7 @@ var definePlugin = new webpack.DefinePlugin({
 module.exports = {
   entry: './main.js',
   output: {
-    filename: 'bundle.js'       
+    filename: 'bundle.js'
   },
   plugins: [definePlugin]
 };

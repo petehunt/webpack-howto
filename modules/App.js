@@ -1,12 +1,10 @@
-/** @jsx React.DOM */
+import React from 'react';
+import {Link, RouteHandler} from 'react-router'
 
-var React = require('react');
-var {Link, RouteHandler} = require('react-router');
+import './App.less';
 
-require('./App.css');
-
-var App = React.createClass({
-  render: function() {
+class App extends React.Component {
+  render() {
     return (
       <div>
         <header>
@@ -20,6 +18,6 @@ var App = React.createClass({
       </div>
     );
   }
-});
+}
 
-module.exports = App;
+export default App;
