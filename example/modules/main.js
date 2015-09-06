@@ -1,5 +1,3 @@
-/** @jsx React.DOM */
-
 var App = require('./App');
 var Home = require('./Home');
 var About = require('./About');
