@@ -14,6 +14,22 @@ My advice: start with this as your webpack docs, then look at the official docs 
     * Async loading
     * Packaging static assets like images and CSS
 
+## Shortcuts
+
+- [1. Why webpack?](#whywebpack)
+- [2. Webpack for Browserify people](#browserifypeople)
+- [3. How to invoke webpack](#invoke)
+- [4. Compile-to-JS languages](#compile)
+- [5. External dependencies (vendors)](#external)
+- [6. Stylesheets and images](#stylesheetsandimages)
+- [7. Feature flags](#featureflags)
+- [8. Multiple entrypoints](#multipleentrypoints)
+- [9. Optimizing common code](#optimizing)
+- [10. Async loading](#asyncloading)
+- [Additional resources](#resources)
+- [FAQ](#faq)
+
+<a name="whywebpack"></a>
 ## 1. Why webpack?
 
 
@@ -23,6 +39,7 @@ My advice: start with this as your webpack docs, then look at the official docs 
 
 It supports AMD and CommonJS, among other module systems (Angular, ES6). If you don't know what to use, use CommonJS.
 
+<a name="browserifypeople"></a>
 ## 2. Webpack for Browserify people
 
 These are equivalent:
@@ -49,6 +66,7 @@ module.exports = {
 
 This is just JS, so feel free to put Real Code in there.
 
+<a name="invoke"></a>
 ## 3. How to invoke webpack
 
 Switch to the directory containing `webpack.config.js` and run:
@@ -56,8 +74,10 @@ Switch to the directory containing `webpack.config.js` and run:
   * `webpack` for building once for development
   * `webpack -p` for building once for production (minification)
   * `webpack --watch` for continuous incremental build in development (fast!)
-  * `webpack -d` to include source maps
+  * `webpack --devtool eval` to include source maps during development (fast!)
+  * `webpack -d` to include source maps for production
 
+<a name="compile"></a>
 ## 4. Compile-to-JS languages
 
 webpack's equivalent of browserify transforms and RequireJS plugins is a **loader**. Here's how you can teach webpack to load CoffeeScript and Facebook JSX+ES6 support (you must `npm install babel-loader coffee-loader`):
@@ -100,8 +120,46 @@ module.exports = {
 };
 ```
 
+<a name="external"></a>
+## 5. External dependencies (vendors)
 
-## 5. Stylesheets and images
+When using webpack to run your workflow it can quickly become slow if the sources of all external dependencies are included. If your priority is to keep a low rebundling speed you can use the following strategy:
+
+```js
+// webpack.config.js
+var config = {
+
+  // Add a method for conveniance
+  addDependency: function (name, path) {
+
+    // The dependency added should not be parsed by webpack
+    this.module.noParse.push(new RegExp('^' + name + '$'));
+
+    // Map the name of the depdenency to its path
+    this.resolve.alias[name] = path;
+  },
+  entry: './main.js',
+  output: {
+    filename: 'bundle.js'       
+  },
+  module: {
+    noParse: [], // Prepare array to avoid parsing external dependencies
+    loaders: [
+      { test: /\.js$/, loader: 'jsx-loader?harmony' }
+    ]
+  },
+  resolve: { alias: {} } // Prepare alias object to map dependency names to source
+};
+
+// Example: Add React JS as a dependency. This will improve 
+// rebundle speed with around 200 ms
+config.addDependency('react', __dirname + '/bower_components/react/react.min.js');
+
+module.exports = config;
+```
+
+<a name="stylesheetsandimages"></a>
+## 6. Stylesheets and images
 
 First update your code to `require()` your static assets (named as they would with node's `require()`):
 
@@ -136,7 +194,8 @@ module.exports = {
 };
 ```
 
-## 6. Feature flags
+<a name="featureflags"></a>
+## 7. Feature flags
 
 We have code we want to gate only to our dev environments (like logging) and our internal dogfooding servers (like unreleased features we're testing with employees). In your code, refer to magic globals:
 
@@ -172,7 +231,8 @@ module.exports = {
 
 Then you can build with `BUILD_DEV=1 BUILD_PRERELEASE=1 webpack` from the console. Note that since `webpack -p` runs uglify dead-code elimination, anything wrapped in one of these blocks will be stripped out, so you won't leak secret features or strings.
 
-## 7. Multiple entrypoints
+<a name="multipleentrypoints"></a>
+## 8. Multiple entrypoints
 
 Let's say you have a profile page and a feed page. You don't want to make the user download the code for the feed if they just want the profile. So make multiple bundles: create one "main module" (called an entrypoint) per page:
 
@@ -192,9 +252,10 @@ module.exports = {
 
 For profile, insert `<script src="build/Profile.js"></script>` into your page. Do a similar thing for feed.
 
-## 8. Optimizing common code
+<a name="optimizing"></a>
+## 9. Optimizing common code
 
-Feed and Profile share a lot in common (like React and the common stylesheets and components). webpack can figure out what they have in common and make a shared bundle that can be cached between pages:
+Feed and Profile share a lot in common (like React and the common stylesheets and components). Webpack can figure out what they have in common and make a shared bundle that can be cached between pages:
 
 ```js
 // webpack.config.js
@@ -219,7 +280,36 @@ module.exports = {
 
 Add `<script src="build/common.js"></script>` before the script tag you added in the previous step and enjoy the free caching.
 
-## 9. Async loading
+Webpack will by default analyse all entry points for common modules. An example of this would be both *profile.js* and *feed.js* having a *require('react')* statement. You can override how many entry points is required before a module is moved to the common bundle.
+
+
+```js
+// webpack.config.js
+
+var webpack = require('webpack');
+
+// Though we have 3 entry points, we only require two of 
+// them to require the same module before being moved
+// to the common bundle
+var commonsPlugin =
+  new webpack.optimize.CommonsChunkPlugin('common.js', 2);
+
+module.exports = {
+  entry: {
+    Chat: './chat.js',
+    Profile: './profile.js',
+    Feed: './feed.js'
+  },
+  output: {
+    path: 'build',
+    filename: '[name].js' // Template based on keys in entry above
+  },
+  plugins: [commonsPlugin]
+};
+```
+
+<a name="asyncloading"></a>
+## 10. Async loading
 
 CommonJS is synchronous but webpack provides a way to asynchronously specify dependencies. This is useful for client-side routers, where you want the router on every page, but you don't want to have to download features until you actually need them.
 
@@ -253,11 +343,15 @@ output: {
 }
 ```
 
+<a name="resources"></a>
 ## Additional resources
 
-Take a look at a real world example on how a successful team is leveraging webpack: http://youtu.be/VkTCL6Nqm6Y
+- Take a look at a real world example on how a successful team is leveraging webpack: http://youtu.be/VkTCL6Nqm6Y
 This is Pete Hunt as OSCon talking about webpack at Instagram.com
 
+- Article explaining how to use the **webpack-dev-server** in your workflow: [Creating a workflow with Webpack](http://christianalfoni.github.io/javascript/2014/12/13/did-you-know-webpack-and-react-is-awesome.html)
+
+<a name="faq"></a>
 ## FAQ
 
 ### webpack doesn't seem modular
