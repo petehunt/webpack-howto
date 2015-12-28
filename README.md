@@ -62,7 +62,7 @@ Switch to the directory containing `webpack.config.js` and run:
 
 webpack's equivalent of browserify transforms and RequireJS plugins is a **loader**. Here's how you can teach webpack to load CoffeeScript and Facebook JSX+ES6 support (you must `npm install babel-loader coffee-loader`):
 
-See also the [babel-loader installation instructions](https://www.npmjs.com/package/babel-loader) for additional dependencies.
+See also the [babel-loader installation instructions](https://www.npmjs.com/package/babel-loader) for additional dependencies (tl;dr run `npm install babel-core babel-preset-es2015 babel-preset-react`).
 
 ```js
 // webpack.config.js
