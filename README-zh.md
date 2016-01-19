@@ -71,7 +71,7 @@ This is just JS, so feel free to put Real Code in there.
 
 ## 2. 对于习惯Browserify的人可以这样使用Webpack
 
-下面是等价的:
+下面的命令是等价的:
 
 ```js
 browserify main.js > bundle.js
@@ -102,6 +102,15 @@ Switch to the directory containing `webpack.config.js` and run:
   * `webpack` for building once for development
   * `webpack -p` for building once for production (minification)
   * `webpack --watch` for continuous incremental build in development (fast!)
+  * `webpack -d` to include source maps
+
+## 3. 如何调用webpack
+
+选择一个目录下有`webpack.config.js`文件的文件夹，然后运行下面的命令:
+
+  * `webpack` 开发环境下编译
+  * `webpack -p` 产品编译及压缩
+  * `webpack --watch` 开发环境下持续的监听文件变动来进行编译(非常快!)
   * `webpack -d` to include source maps
 
 ## 4. Compile-to-JS languages
@@ -155,7 +164,66 @@ module.exports = {
   },
   resolve: {
     // you can now require('file') instead of require('file.coffee')
-    extensions: ['', '.js', '.json', '.coffee'] 
+    extensions: ['', '.js', '.json', '.coffee']
+  }
+};
+```
+
+## 4. 编译js预演
+
+webpack可以和browserify、RequireJS一样作为一个**loader**(加载工具)来使用。下面我们来看下如何使用webpack去加载、编译CoffeeScript和JSX+ES6。(这里你必须先 `npm install babel-loader coffee-loader`):
+
+你也要看下[babel-loader的介绍](https://www.npmjs.com/package/babel-loader)，它会作为一个开发环境下的依赖加载到我们的项目中(run `npm install babel-core babel-preset-es2015 babel-preset-react`)
+
+```js
+// webpack.config.js
+module.exports = {
+  entry: './main.js', // 入口文件
+  output: {
+    filename: 'bundle.js' // 打包输出的文件    
+  },
+  module: {
+    loaders: [
+      {
+        test: /\.coffee$/,  // test 去判断是否为.coffee的文件,是的话就是进行coffee编译
+        loader: 'coffee-loader'
+      },
+      {
+        test: /\.js$/, // test 去判断是否为.js,是的话就是进行es6和jsx的编译
+        loader: 'babel-loader',
+        query: {
+          presets: ['es2015', 'react']
+        }
+      }
+    ]
+  }
+};
+```
+
+为了在require文件的时候不去指定特定的文件扩展名，你必须在webpack.config.js中加入`resolve.extensions`字段，去配置扩展名。
+
+```js
+// webpack.config.js
+module.exports = {
+  entry: './main.js',
+  output: {
+    filename: 'bundle.js'       
+  },
+  module: {
+    loaders: [
+      { test: /\.coffee$/, loader: 'coffee-loader' },
+      {
+        test: /\.js$/,
+        loader: 'babel-loader',
+        query: {
+          presets: ['es2015', 'react']
+        }
+      }
+    ]
+  },
+  resolve: {
+    // 现在你require文件的时候可以直接使用require('file')，不用使用require('file.coffee')
+    extensions: ['', '.js', '.json', '.coffee']
   }
 };
 ```
@@ -191,6 +259,41 @@ module.exports = {
       { test: /\.less$/, loader: 'style-loader!css-loader!less-loader' }, // use ! to chain loaders
       { test: /\.css$/, loader: 'style-loader!css-loader' },
       {test: /\.(png|jpg)$/, loader: 'url-loader?limit=8192'} // inline base64 URLs for <=8k images, direct URLs for the rest
+    ]
+  }
+};
+```
+
+## 5. Css样式和图片的加载
+
+首先你需要用`require()`去加载你的静态资源(named as they would with node's `require()`):
+
+```js
+require('./bootstrap.css');
+require('./myapp.less');
+
+var img = document.createElement('img');
+img.src = require('./glyph.png');
+```
+
+当你require了CSS(less或者其他)文件，webpack会在页面中插入一个内联的`<style>`，去引入样式。当require图片的时候，webpack inlines a URL to the image into the bundle and returns it from `require()`.
+
+你应该在`webpack.config.js`里教webpack去如何处理这些事情(同样的，这里我们还是要使用loaders)
+
+```js
+// webpack.config.js
+module.exports = {
+  entry: './main.js',
+  output: {
+    path: './build', // 图片和js会放在这
+    publicPath: 'http://mycdn.com/', // 这里用来生成图片的地址
+    filename: 'bundle.js'
+  },
+  module: {
+    loaders: [
+      { test: /\.less$/, loader: 'style-loader!css-loader!less-loader' }, // 用!去链式调用loader
+      { test: /\.css$/, loader: 'style-loader!css-loader' },
+      {test: /\.(png|jpg)$/, loader: 'url-loader?limit=8192'} // 内联的base64的图片地址，图片要小于8k 是这样吗？？？ // inline base64 URLs for <=8k images, direct URLs for the rest
     ]
   }
 };
