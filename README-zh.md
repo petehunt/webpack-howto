@@ -252,7 +252,7 @@ module.exports = {
 
 ## 8. 优化相同代码
 
-Feed和Profile页面有很多相同的代码(比如React、公共的样式和组件等等)。webpack可以找出这两个页面中相同的引用部分，然后生成一个公共的bundle，可以在两个页面之间缓存使用:
+Feed和Profile页面有很多相同的代码(比如React、公共的样式和组件等等)。webpack可以找出这两个页面中相同的代码，然后生成一个公共的bundle，可以在两个页面之间缓存使用:
 
 ```js
 // webpack.config.js
@@ -313,16 +313,16 @@ output: {
 
 ## 9. 异步加载
 
-虽然CommonJS是同步加载的，但是webpack也提供了异步加载的方式。 This is useful for client-side routers, where you want the router on every page, but you don't want to have to download features until you actually need them.
+虽然CommonJS是同步加载的，但是webpack也提供了异步加载的方式。这个在客户端的路由中使用好。当你真正路由到了这个页面的时候，代码才会被download下来。
 
-Specify the **split point** where you want to load asynchronously. For example:
+指定你要异步加载的**拆分点**。看下面的例子
 
 ```js
 if (window.location.pathname === '/feed') {
   showLoadingState();
-  require.ensure([], function() { // this syntax is weird but it works
+  require.ensure([], function() { // 这个语法痕奇怪，但是还是可以起作用的
     hideLoadingState();
-    require('./feed').show(); // when this function is called, the module is guaranteed to be synchronously available.
+    require('./feed').show(); // 当这个函数被调用的时候，此模块是一定已经被同步加载下来了
   });
 } else if (window.location.pathname === '/profile') {
   showLoadingState();
@@ -333,15 +333,16 @@ if (window.location.pathname === '/feed') {
 }
 ```
 
-webpack will do the rest and generate extra **chunk** files and load them for you.
+webpack会生成额外的**chunk**文件给你，并下载下来
 
 webpack will assume that those files are in your root directory when you load then into a html script tag for example. You can use `output.publicPath` to configure that.
+webpack会假设你在root路径下引用的文件会放在html的script标签中。你可以使用`output.publicPath`在配置文件中指出
 
 ```js
 // webpack.config.js
 output: {
-    path: "/home/proj/public/assets", //path to where webpack will build your stuff
-    publicPath: "/assets/" //path that will be considered when requiring your files
+    path: "/home/proj/public/assets", // webpack的build路径
+    publicPath: "/assets/" // 你require的路径
 }
 ```
 
@@ -350,8 +351,16 @@ output: {
 Take a look at a real world example on how a successful team is leveraging webpack: http://youtu.be/VkTCL6Nqm6Y
 This is Pete Hunt at OSCon talking about webpack at Instagram.com
 
+## 其他
+
+看一个真实的例子，看看他们是怎么使用webaack的http://youtu.be/VkTCL6Nqm6Y。这是Pete Hunt在Instagram.com中谈论webpack的视频。
+
 ## FAQ
 
 ### webpack doesn't seem modular
 
 webpack is **extremely** modular. What makes webpack great is that it lets plugins inject themselves into more places in the build process when compared to alternatives like browserify and requirejs. Many things that may seem built into the core are just plugins that are loaded by default and can be overridden (i.e. the CommonJS require() parser).
+
+### webpack 不仅仅是个modular
+
+webpack is **extremely** modular.相比较browserify和browserify，在你的项目中大量的使用webpack插件才能体现出webpack的优势。 Many things that may seem built into the core are just plugins that are loaded by default and can be overridden (i.e. the CommonJS require() parser).
