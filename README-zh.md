@@ -6,9 +6,10 @@ My advice: start with this as your webpack docs, then look at the official docs 
 
 ## 本教程的目标
 
-这是一个可以教你怎样通过`webpack`做很多事情。我们在`Instagram`中用到的大部分内容在这里已经提及了，没有一个是我们没有提过的。
 
-我的建议：这个教程作为你第一个`webpack`的文档，学习完以后去看它的官方文档，看一些更详细的说明。
+这是一本教你如何应用webpack到你的项目中的工具书。它包含了我们在`Instagram`中用到的绝大多数的内容。
+
+我的建议：这个教程作为你第一个`webpack`的学习文档，之后再去看官方文档，了解更详细的说明。
 
 ## Prerequisites
 
@@ -38,10 +39,11 @@ It supports AMD and CommonJS, among other module systems (Angular, ES6). If you 
 ## 1. 为什么选择 webpack?
 
 
-  * **它和browserify很想** 但是它可以拆分你的应用成多个文件。如果你有很多个页面在同一个单页应用里，用户只需要下载当前页面的代码。如果他们去了其他的页面，只需要下载与就页面不一样的代码即可。
-  * **它可以替代gulp和grunt** 因为他可以构建打包css、预处理css、编译js和图片等很多东西。
+  * **它和browserify类似** 但是它可以把你的应用拆分成多个文件。如果你的单页应用里有很多页面，用户只会下载当前访问页面的代码。当他们访问应用中的其他页面时，不再需要加载与之前页面重复的通用代码。
 
-它支持AMD和CommonJS，以及其他的模块系统(Angular, ES6)。如果你不知道它们怎么用，你就用CommonJS就可以了
+  * **它还可以替代gulp和grunt** 构建打包css、预处理css、编译js和处理图片等。
+
+它支持AMD和CommonJS，以及其他的模块系统(Angular, ES6)。如果你不太熟悉如何使用，就用CommonJS吧。
 
 ## 2. Webpack for Browserify people
 
@@ -62,7 +64,7 @@ However, webpack is more powerful than Browserify, so you generally want to make
 module.exports = {
   entry: './main.js',
   output: {
-    filename: 'bundle.js'       
+    filename: 'bundle.js'
   }
 };
 ```
@@ -81,19 +83,19 @@ browserify main.js > bundle.js
 webpack main.js bundle.js
 ```
 
-然而，webpack要比Browserify强大。所以一般情况下你需要建立一个`webpack.config.js`文件，去进行webpack的配置
+然而，webpack要比Browserify强大。所以一般情况下你需要建立一个`webpack.config.js`文件来配置webpack。
 
 ```js
 // webpack.config.js
 module.exports = {
   entry: './main.js',
   output: {
-    filename: 'bundle.js'       
+    filename: 'bundle.js'
   }
 };
 ```
 
-这就是单纯的JS，所有不会感到有压力写这个配置文件
+这就是单纯的JS，所有写这个配置文件毫无压力。
 
 ## 3. How to invoke webpack
 
@@ -111,7 +113,7 @@ Switch to the directory containing `webpack.config.js` and run:
   * `webpack` 开发环境下编译
   * `webpack -p` 产品编译及压缩
   * `webpack --watch` 开发环境下持续的监听文件变动来进行编译(非常快!)
-  * `webpack -d` to include source maps
+  * `webpack -d` 引入 source maps
 
 ## 4. Compile-to-JS languages
 
@@ -124,7 +126,7 @@ See also the [babel-loader installation instructions](https://www.npmjs.com/pack
 module.exports = {
   entry: './main.js',
   output: {
-    filename: 'bundle.js'       
+    filename: 'bundle.js'
   },
   module: {
     loaders: [
@@ -148,7 +150,7 @@ To enable requiring files without specifying the extension, you must add a `reso
 module.exports = {
   entry: './main.js',
   output: {
-    filename: 'bundle.js'       
+    filename: 'bundle.js'
   },
   module: {
     loaders: [
@@ -180,7 +182,7 @@ webpack可以和browserify、RequireJS一样作为一个**loader**(加载工具)
 module.exports = {
   entry: './main.js', // 入口文件
   output: {
-    filename: 'bundle.js' // 打包输出的文件    
+    filename: 'bundle.js' // 打包输出的文件
   },
   module: {
     loaders: [
@@ -200,14 +202,14 @@ module.exports = {
 };
 ```
 
-为了在require文件的时候不去指定特定的文件扩展名，你必须在webpack.config.js中加入`resolve.extensions`字段，去配置扩展名。
+如果你希望在require文件时省略文件的扩展名，只需要在webpack.config.js中添加 `resolve.extensions` 来配置。
 
 ```js
 // webpack.config.js
 module.exports = {
   entry: './main.js',
   output: {
-    filename: 'bundle.js'       
+    filename: 'bundle.js'
   },
   module: {
     loaders: [
@@ -276,9 +278,9 @@ var img = document.createElement('img');
 img.src = require('./glyph.png');
 ```
 
-当你require了CSS(less或者其他)文件，webpack会在页面中插入一个内联的`<style>`，去引入样式。当require图片的时候，webpack inlines a URL to the image into the bundle and returns it from `require()`.
+当你require了CSS(less或者其他)文件，webpack会在页面中插入一个内联的`<style>`，去引入样式。当require图片的时候，bundle文件会包含图片的url，并通过`require()`返回图片的url。
 
-你应该在`webpack.config.js`里教webpack去如何处理这些事情(同样的，这里我们还是要使用loaders)
+但是这需要你在`webpack.config.js`做相应的配置(这里还是使用loaders)
 
 ```js
 // webpack.config.js
@@ -327,7 +329,7 @@ var definePlugin = new webpack.DefinePlugin({
 module.exports = {
   entry: './main.js',
   output: {
-    filename: 'bundle.js'       
+    filename: 'bundle.js'
   },
   plugins: [definePlugin]
 };
