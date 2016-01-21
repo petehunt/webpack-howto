@@ -149,9 +149,9 @@ module.exports = {
 };
 ```
 
-## 6. Feature flags
+## 6. 功能标识（Feature flags）
 
-We have code we want to gate only to our dev environments (like logging) and our internal dogfooding servers (like unreleased features we're testing with employees). In your code, refer to magic globals:
+项目中有些代码我们只为在开发环境（例如日志）或者是内部测试环境（例如那些没有发布的新功能）中使用，那就需要引入下面这些魔法全局变量（magic globals）：
 
 ```js
 if (__DEV__) {
@@ -163,12 +163,12 @@ if (__PRERELEASE__) {
 }
 ```
 
-Then teach webpack those magic globals:
+同时还要在webpack.config.js中配置这些变量，使得webpack能够识别他们。
 
 ```js
 // webpack.config.js
 
-// definePlugin takes raw strings and inserts them, so you can put strings of JS if you want.
+// definePlugin 会把定义的string 变量插入到Js代码中。
 var definePlugin = new webpack.DefinePlugin({
   __DEV__: JSON.stringify(JSON.parse(process.env.BUILD_DEV || 'true')),
   __PRERELEASE__: JSON.stringify(JSON.parse(process.env.BUILD_PRERELEASE || 'false'))
@@ -183,31 +183,12 @@ module.exports = {
 };
 ```
 
-Then you can build with `BUILD_DEV=1 BUILD_PRERELEASE=1 webpack` from the console. Note that since `webpack -p` runs uglify dead-code elimination, anything wrapped in one of these blocks will be stripped out, so you won't leak secret features or strings.
-
-## 7. Multiple entrypoints
-
-Let's say you have a profile page and a feed page. You don't want to make the user download the code for the feed if they just want the profile. So make multiple bundles: create one "main module" (called an entrypoint) per page:
-
-```js
-// webpack.config.js
-module.exports = {
-  entry: {
-    Profile: './profile.js',
-    Feed: './feed.js'
-  },
-  output: {
-    path: 'build',
-    filename: '[name].js' // Template based on keys in entry above
-  }
-};
-```
-
-For profile, insert `<script src="build/Profile.js"></script>` into your page. Do a similar thing for feed.
+配置完成后，就可以使用 `BUILD_DEV=1 BUILD_PRERELEASE=1 webpack`来打包代码了。
+值得注意的是，`webpacl -p` 会删除所有无作用代码，也就是说那些包裹在这些全局变量下的代码块都会被删除，这样就能保证这些代码不会因发布上线而泄露。
 
 ## 7. 多个入口文件
 
-你现在有一个profile页面和feed页面。当用户访问profile页面的时候，你肯定不希望用户访问到了feed页面的代码。所以我们可以生成多个bundles:为每个页面创建自己的"main module"
+如果你有两个页面：frofile和feed。如果你希望用户访问profile页面时不加载feed页面的代码，那就需要生成多个bundles文件：为每个页面创建自己的“main module”（入口文件）。
 
 ```js
 // webpack.config.js
@@ -218,41 +199,16 @@ module.exports = {
   },
   output: {
     path: 'build',
-    filename: '[name].js' // 为上面entry的key值
+    filename: '[name].js' // name是基于上边entry中定义的key
   }
 };
 ```
 
 在profile页面中插入`<script src="build/Profile.js"></script>`。feed也一样。
 
-## 8. Optimizing common code
+## 8. 优化通用代码
 
-Feed and Profile share a lot in common (like React and the common stylesheets and components). webpack can figure out what they have in common and make a shared bundle that can be cached between pages:
-
-```js
-// webpack.config.js
-
-var webpack = require('webpack');
-
-var commonsPlugin =
-  new webpack.optimize.CommonsChunkPlugin('common.js');
-
-module.exports = {
-  entry: {
-    Profile: './profile.js',
-    Feed: './feed.js'
-  },
-  output: {
-    path: 'build',
-    filename: '[name].js' // Template based on keys in entry above
-  },
-  plugins: [commonsPlugin]
-};
-```
-
-## 8. 优化相同代码
-
-Feed和Profile页面有很多相同的代码(比如React、公共的样式和组件等等)。webpack可以找出这两个页面中相同的代码，然后生成一个公共的bundle，可以在两个页面之间缓存使用:
+Feed和Profile页面存在大量通用代码(比如React、公共的样式和组件等等)。webpack可以抽离页面间公共的代码，生成一个公共的bundle文件，供这两个页面缓存使用:
 
 ```js
 // webpack.config.js
@@ -277,45 +233,11 @@ module.exports = {
 
 在上一步引入自己的bundle之前引入`<script src="build/common.js"></script>`
 
-## 9. Async loading
-
-CommonJS is synchronous but webpack provides a way to asynchronously specify dependencies. This is useful for client-side routers, where you want the router on every page, but you don't want to have to download features until you actually need them.
-
-Specify the **split point** where you want to load asynchronously. For example:
-
-```js
-if (window.location.pathname === '/feed') {
-  showLoadingState();
-  require.ensure([], function() { // this syntax is weird but it works
-    hideLoadingState();
-    require('./feed').show(); // when this function is called, the module is guaranteed to be synchronously available.
-  });
-} else if (window.location.pathname === '/profile') {
-  showLoadingState();
-  require.ensure([], function() {
-    hideLoadingState();
-    require('./profile').show();
-  });
-}
-```
-
-webpack will do the rest and generate extra **chunk** files and load them for you.
-
-webpack will assume that those files are in your root directory when you load then into a html script tag for example. You can use `output.publicPath` to configure that.
-
-```js
-// webpack.config.js
-output: {
-    path: "/home/proj/public/assets", //path to where webpack will build your stuff
-    publicPath: "/assets/" //path that will be considered when requiring your files
-}
-```
-
 ## 9. 异步加载
 
-虽然CommonJS是同步加载的，但是webpack也提供了异步加载的方式。这个在客户端的路由中使用好。当你真正路由到了这个页面的时候，代码才会被download下来。
+虽然CommonJS是同步加载的，但是webpack也提供了异步加载的方式。这对于单页应用中使用的客户端路由非常有用。当真正路由到了某个页面的时候，它的代码才会被加载下来。
 
-指定你要异步加载的**拆分点**。看下面的例子
+指定你要异步加载的 **拆分点**。看下面的例子
 
 ```js
 if (window.location.pathname === '/feed') {
@@ -333,10 +255,9 @@ if (window.location.pathname === '/feed') {
 }
 ```
 
-webpack会生成额外的**chunk**文件给你，并下载下来
+剩下的事就可以交给webpack，它会为你生成并加载这些额外的 **chunk** 文件。
 
-webpack will assume that those files are in your root directory when you load then into a html script tag for example. You can use `output.publicPath` to configure that.
-webpack会假设你在root路径下引用的文件会放在html的script标签中。你可以使用`output.publicPath`在配置文件中指出
+webpack 默认会从项目的根目录下引入这些chunk文件。你也可以通过 `output.publicPath`来配置chunk文件的引入路径
 
 ```js
 // webpack.config.js
@@ -346,21 +267,12 @@ output: {
 }
 ```
 
-## Additional resources
-
-Take a look at a real world example on how a successful team is leveraging webpack: http://youtu.be/VkTCL6Nqm6Y
-This is Pete Hunt at OSCon talking about webpack at Instagram.com
-
 ## 其他
 
 看一个真实的例子，看看他们是怎么使用webaack的http://youtu.be/VkTCL6Nqm6Y。这是Pete Hunt在Instagram.com中谈论webpack的视频。
 
 ## FAQ
 
-### webpack doesn't seem modular
-
-webpack is **extremely** modular. What makes webpack great is that it lets plugins inject themselves into more places in the build process when compared to alternatives like browserify and requirejs. Many things that may seem built into the core are just plugins that are loaded by default and can be overridden (i.e. the CommonJS require() parser).
-
 ### webpack 不仅仅是个modular
 
-webpack is **extremely** modular.相比较browserify和browserify，在你的项目中大量的使用webpack插件才能体现出webpack的优势。 Many things that may seem built into the core are just plugins that are loaded by default and can be overridden (i.e. the CommonJS require() parser).
+相比较browserify和browserify，在你的项目中大量的使用webpack插件才能体现出webpack的优势。核心的代码都是被默认加载的，只有那些使用了插件的代码才会被复写。
