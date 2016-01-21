@@ -7,7 +7,7 @@
 ## 学习的前提
 
   * 你了解过类似`browserify`、`RequireJS`的东西
-  * You see the value in:
+  * 你知道:
   	* Bundle的拆分
   	* 异步的加载
   	* 打包images和css的这一类的静态资源
@@ -143,7 +143,7 @@ module.exports = {
     loaders: [
       { test: /\.less$/, loader: 'style-loader!css-loader!less-loader' }, // 用!去链式调用loader
       { test: /\.css$/, loader: 'style-loader!css-loader' },
-      {test: /\.(png|jpg)$/, loader: 'url-loader?limit=8192'} // 内联的base64的图片地址，图片要小于8k 是这样吗？？？ // inline base64 URLs for <=8k images, direct URLs for the rest
+      {test: /\.(png|jpg)$/, loader: 'url-loader?limit=8192'} // 内联的base64的图片地址，图片要小于8k，直接的url的地址则不解析
     ]
   }
 };
@@ -269,10 +269,10 @@ output: {
 
 ## 其他
 
-看一个真实的例子，看看他们是怎么使用webaack的http://youtu.be/VkTCL6Nqm6Y。这是Pete Hunt在Instagram.com中谈论webpack的视频。
+看一个真实的例子，[看看他们是怎么使用webpack](http://youtu.be/VkTCL6Nqm6Y)。这是Pete Hunt在Instagram.com中谈论webpack的视频。
 
 ## FAQ
 
 ### webpack 不仅仅是个modular
 
-相比较browserify和browserify，在你的项目中大量的使用webpack插件才能体现出webpack的优势。核心的代码都是被默认加载的，只有那些使用了插件的代码才会被复写。
+相比较browserify和browserify，在你的项目中大量的使用webpack插件才能体现出webpack的优势。当使用了插件后，代码才会被复写。其余的都是默认加载。
