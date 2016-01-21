@@ -39,7 +39,7 @@ webpack main.js bundle.js
 module.exports = {
   entry: './main.js',
   output: {
-    filename: 'bundle.js'       
+    filename: 'bundle.js'
   }
 };
 ```
@@ -66,7 +66,7 @@ webpack可以和browserify、RequireJS一样作为一个**loader**(加载工具)
 module.exports = {
   entry: './main.js', // 入口文件
   output: {
-    filename: 'bundle.js' // 打包输出的文件    
+    filename: 'bundle.js' // 打包输出的文件
   },
   module: {
     loaders: [
@@ -93,7 +93,7 @@ module.exports = {
 module.exports = {
   entry: './main.js',
   output: {
-    filename: 'bundle.js'       
+    filename: 'bundle.js'
   },
   module: {
     loaders: [
@@ -177,14 +177,14 @@ var definePlugin = new webpack.DefinePlugin({
 module.exports = {
   entry: './main.js',
   output: {
-    filename: 'bundle.js'       
+    filename: 'bundle.js'
   },
   plugins: [definePlugin]
 };
 ```
 
 配置完成后，就可以使用 `BUILD_DEV=1 BUILD_PRERELEASE=1 webpack`来打包代码了。
-值得注意的是，`webpacl -p` 会删除所有无作用代码，也就是说那些包裹在这些全局变量下的代码块都会被删除，这样就能保证这些代码不会因发布上线而泄露。
+值得注意的是，`webpack -p` 会删除所有无作用代码，也就是说那些包裹在这些全局变量下的代码块都会被删除，这样就能保证这些代码不会因发布上线而泄露。
 
 ## 7. 多个入口文件
 
