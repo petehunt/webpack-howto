@@ -188,7 +188,7 @@ module.exports = {
 
 ## 7. 多个入口文件
 
-如果你有两个页面：frofile和feed。如果你希望用户访问profile页面时不加载feed页面的代码，那就需要生成多个bundles文件：为每个页面创建自己的“main module”（入口文件）。
+如果你有两个页面：profile和feed。如果你希望用户访问profile页面时不加载feed页面的代码，那就需要生成多个bundles文件：为每个页面创建自己的“main module”（入口文件）。
 
 ```js
 // webpack.config.js
