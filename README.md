@@ -54,7 +54,7 @@ This is just JS, so feel free to put Real Code in there.
 Switch to the directory containing `webpack.config.js` and run:
 
   * `webpack` for building once for development
-  * `webpack -p` for building once for production (minification)
+  * `webpack -p --bail` for building once for production (minification + `bail` option to exit with non-zero code when build fails)
   * `webpack --watch` for continuous incremental build in development (fast!)
   * `webpack -d` to include source maps
 
