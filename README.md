@@ -8,7 +8,7 @@ My advice: start with this as your webpack docs, then look at the official docs 
 
 ## Prerequisites
 
-  * You know browserify, RequireJS or something similar
+  * You know Browserify, RequireJS or something similar
   * You see the value in:
     * Bundle splitting
     * Async loading
@@ -17,13 +17,13 @@ My advice: start with this as your webpack docs, then look at the official docs 
 ## 1. Why webpack?
 
 
-  * **It's like browserify** but can split your app into multiple files. If you have multiple pages in a single-page app, the user only downloads code for just that page. If they go to another page, they don't redownload common code.
+  * **It's like Browserify** but can split your app into multiple files. If you have multiple pages in a single-page app, the user only downloads code for just that page. If they go to another page, they don't redownload common code.
 
   * **It often replaces grunt or gulp** because it can build and bundle CSS, preprocessed CSS, compile-to-JS languages and images, among other things.
 
 It supports AMD and CommonJS, among other module systems (Angular, ES6). If you don't know what to use, use CommonJS.
 
-## 2. Webpack for Browserify people
+## 2. webpack for Browserify people
 
 These are equivalent:
 
@@ -35,19 +35,21 @@ browserify main.js > bundle.js
 webpack main.js bundle.js
 ```
 
-However, webpack is more powerful than Browserify, so you generally want to make a `webpack.config.js` to keep things organized:
+However, webpack is more powerful than Browserify. 
+
+You generally want to make a `webpack.config.js` to keep things organized:
 
 ```js
 // webpack.config.js
 module.exports = {
   entry: './main.js',
   output: {
-    filename: 'bundle.js'       
+    filename: 'bundle.js'
   }
 };
 ```
 
-This is just JS, so feel free to put Real Code in there.
+This is just JS, so feel free to put real code in there.
 
 ## 3. How to invoke webpack
 
@@ -60,7 +62,7 @@ Switch to the directory containing `webpack.config.js` and run:
 
 ## 4. Compile-to-JS languages
 
-webpack's equivalent of browserify transforms and RequireJS plugins is a **loader**. Here's how you can teach webpack to load CoffeeScript and Facebook JSX+ES6 support (you must `npm install babel-loader coffee-loader`):
+webpack's equivalent of Browserify transforms and RequireJS plugins is a **loader**. Here's how you can teach webpack to load CoffeeScript and Facebook JSX+ES6 support (you must `npm install babel-loader coffee-loader`):
 
 See also the [babel-loader installation instructions](https://www.npmjs.com/package/babel-loader) for additional dependencies (tl;dr run `npm install babel-core babel-preset-es2015 babel-preset-react`).
 
@@ -69,7 +71,7 @@ See also the [babel-loader installation instructions](https://www.npmjs.com/pack
 module.exports = {
   entry: './main.js',
   output: {
-    filename: 'bundle.js'       
+    filename: 'bundle.js'
   },
   module: {
     loaders: [
@@ -93,7 +95,7 @@ To enable requiring files without specifying the extension, you must add a `reso
 module.exports = {
   entry: './main.js',
   output: {
-    filename: 'bundle.js'       
+    filename: 'bundle.js'
   },
   module: {
     loaders: [
@@ -109,7 +111,7 @@ module.exports = {
   },
   resolve: {
     // you can now require('file') instead of require('file.coffee')
-    extensions: ['', '.js', '.json', '.coffee'] 
+    extensions: ['', '.js', '.json', '.coffee']
   }
 };
 ```
@@ -136,7 +138,7 @@ But you need to teach webpack to do this (again, with loaders):
 module.exports = {
   entry: './main.js',
   output: {
-    path: './build', // This is where images AND js will go
+    path: './build', // This is where images AND JS will go
     publicPath: 'http://mycdn.com/', // This is used to generate URLs to e.g. images
     filename: 'bundle.js'
   },
@@ -178,7 +180,7 @@ var definePlugin = new webpack.DefinePlugin({
 module.exports = {
   entry: './main.js',
   output: {
-    filename: 'bundle.js'       
+    filename: 'bundle.js'
   },
   plugins: [definePlugin]
 };
@@ -269,11 +271,11 @@ output: {
 
 ## Additional resources
 
-Take a look at a real world example on how a successful team is leveraging webpack: http://youtu.be/VkTCL6Nqm6Y
+Take a look at a real world example on how a successful team is leveraging webpack: [http://youtu.be/VkTCL6Nqm6Y](http://youtu.be/VkTCL6Nqm6Y)
 This is Pete Hunt at OSCon talking about webpack at Instagram.com
 
 ## FAQ
 
 ### webpack doesn't seem modular
 
-webpack is **extremely** modular. What makes webpack great is that it lets plugins inject themselves into more places in the build process when compared to alternatives like browserify and requirejs. Many things that may seem built into the core are just plugins that are loaded by default and can be overridden (i.e. the CommonJS require() parser).
+webpack is **extremely** modular. What makes webpack great is that it lets plugins inject themselves into more places in the build process when compared to alternatives like Browserify and RequireJS. Many things that may seem built into the core are just plugins that are loaded by default and can be overridden (i.e. the CommonJS require() parser).
