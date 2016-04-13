@@ -152,7 +152,7 @@ module.exports = {
 
 ## 6. Feature flags
 
-We have code we want to gate only to our dev environments (like logging) and our internal dogfooding servers (like unreleased features we're testing with employees). In your code, refer to magic globals:
+We have code we want to gate only to our dev environments (like logging) and our internal dogfooding servers (like unreleased features we're testing with employees). In your code, refer to magic globals (you must `npm install extended-define-webpack-plugin`):
 
 ```js
 if (__DEV__) {
@@ -169,10 +169,12 @@ Then teach webpack those magic globals:
 ```js
 // webpack.config.js
 
-// definePlugin takes raw strings and inserts them, so you can put strings of JS if you want.
-var definePlugin = new webpack.DefinePlugin({
-  __DEV__: JSON.stringify(JSON.parse(process.env.BUILD_DEV || 'true')),
-  __PRERELEASE__: JSON.stringify(JSON.parse(process.env.BUILD_PRERELEASE || 'false'))
+// ExtendedDefinePlugin is an extended version of webpack.definePlugin that takes raw strings and inserts them, so you can put strings of JS if you want.
+var ExtendedDefinePlugin = require('extended-define-webpack-plugin');
+
+var definePlugin = new ExtendedDefinePlugin({
+  __DEV__: JSON.parse(process.env.BUILD_DEV || 'true'),
+  __PRERELEASE__: JSON.parse(process.env.BUILD_PRERELEASE || 'false')
 });
 
 module.exports = {
