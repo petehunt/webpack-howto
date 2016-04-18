@@ -242,7 +242,7 @@ module.exports = {
 ```js
 if (window.location.pathname === '/feed') {
   showLoadingState();
-  require.ensure([], function() { // 这个语法痕奇怪，但是还是可以起作用的
+  require.ensure([], function() { // 这个语法很奇怪，但是还是可以起作用的
     hideLoadingState();
     require('./feed').show(); // 当这个函数被调用的时候，此模块是一定已经被同步加载下来了
   });
