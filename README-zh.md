@@ -275,4 +275,3 @@ output: {
 
 ### webpack 不仅仅是个modular
 
-相比较browserify和browserify，在你的项目中大量的使用webpack插件才能体现出webpack的优势。当使用了插件后，代码才会被复写。其余的都是默认加载。
