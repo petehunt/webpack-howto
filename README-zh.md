@@ -273,6 +273,6 @@ output: {
 
 ## FAQ
 
-### webpack 不仅仅是个modular
+### webpack 不仅仅是个 modular
 
 相比较 browserify 和 requirejs，在你的项目中大量的使用 webpack 插件才能体现出 webpack 的优势。当使用了插件后，代码才会被复写。其余的都是默认加载。
