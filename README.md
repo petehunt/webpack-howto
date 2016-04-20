@@ -109,7 +109,7 @@ module.exports = {
   },
   resolve: {
     // you can now require('file') instead of require('file.coffee')
-    extensions: ['', '.js', '.json', '.coffee'] 
+    extensions: ['', '.js', '.json', '.coffee']
   }
 };
 ```
@@ -266,6 +266,23 @@ output: {
     publicPath: "/assets/" //path that will be considered when requiring your files
 }
 ```
+
+## 10. Aliasing and ignoring modules
+
+Does a 3rd party load a script you don't want? Or maybe it's using a different version than you are using?
+Webpack has you covered.
+
+```js
+const IgnorePlugin =  require("webpack").IgnorePlugin;
+...
+  resolve:{
+    alias:{
+      "react":"/opt/node_modules/react-0.14/node_modules/react"
+    }
+  },
+  plugins:[new IgnorePlugin(/(jszip|xlsx|xls)/)]
+```
+
 
 ## Additional resources
 
