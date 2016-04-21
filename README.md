@@ -242,13 +242,13 @@ Specify the **split point** where you want to load asynchronously. For example:
 ```js
 if (window.location.pathname === '/feed') {
   showLoadingState();
-  require.ensure([], function() { // this syntax is weird but it works
+  require.ensure([], function(require) { // this syntax is weird but it works
     hideLoadingState();
     require('./feed').show(); // when this function is called, the module is guaranteed to be synchronously available.
   });
 } else if (window.location.pathname === '/profile') {
   showLoadingState();
-  require.ensure([], function() {
+  require.ensure([], function(require) {
     hideLoadingState();
     require('./profile').show();
   });
