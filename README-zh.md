@@ -50,8 +50,8 @@ module.exports = {
 
 选择一个目录下有`webpack.config.js`文件的文件夹，然后运行下面的命令:
 
-  * `webpack` 开发环境下编译
-  * `webpack -p` 产品编译及压缩
+  * `webpack` 构建一次，开发环境下使用
+  * `webpack -p` 构建一次，生产环境使用（压缩）
   * `webpack --watch` 开发环境下持续的监听文件变动来进行编译(非常快!)
   * `webpack -d` 引入 source maps
 
@@ -231,7 +231,7 @@ module.exports = {
 };
 ```
 
-在上一步引入自己的bundle之前引入`<script src="build/common.js"></script>`
+在上一步引入自己的bundle之前引入`<script src="build/common.js"></script>`，享受这免费的缓存吧。
 
 ## 9. 异步加载
 
@@ -257,7 +257,7 @@ if (window.location.pathname === '/feed') {
 
 剩下的事就可以交给webpack，它会为你生成并加载这些额外的 **chunk** 文件。
 
-webpack 默认会从项目的根目录下引入这些chunk文件。你也可以通过 `output.publicPath`来配置chunk文件的引入路径
+例如当你加载它们进到一个html script标签时，webpack 默认会从项目的根目录下引入这些chunk文件。你也可以通过 `output.publicPath`来配置chunk文件的引入路径
 
 ```js
 // webpack.config.js
