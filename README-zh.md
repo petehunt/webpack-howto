@@ -231,7 +231,7 @@ module.exports = {
 };
 ```
 
-在上一步引入自己的bundle之前引入`<script src="build/common.js"></script>`
+在上一步引入自己的bundle之前引入`<script src="build/common.js"></script>`，享受免费的缓存。
 
 ## 9. 异步加载
 
