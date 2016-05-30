@@ -50,8 +50,8 @@ module.exports = {
 
 选择一个目录下有`webpack.config.js`文件的文件夹，然后运行下面的命令:
 
-  * `webpack` 开发环境下编译
-  * `webpack -p` 产品编译及压缩
+  * `webpack` 构建一次，开发环境下使用
+  * `webpack -p` 构建一次，生产环境使用（压缩）
   * `webpack --watch` 开发环境下持续的监听文件变动来进行编译(非常快!)
   * `webpack -d` 引入 source maps
 
