@@ -114,7 +114,7 @@ module.exports = {
 };
 ```
 
-## 5. Css样式和图片的加载
+## 5. CSS 样式和图片的加载
 
 首先你需要用`require()`去加载你的静态资源(named as they would with node's `require()`):
 
