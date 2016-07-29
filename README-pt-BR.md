@@ -14,18 +14,18 @@ Meu conselho: comece com este guia como se fosse a documentação do webpack, e 
     * Carregamento Assícrono
     * Empacotamento de recursos estáticos, como imagens e CSS
 
-## 1. Why webpack?
+## 1. Por que webpack?
 
 
-  * **It's like browserify** but can split your app into multiple files. If you have multiple pages in a single-page app, the user only downloads code for just that page. If they go to another page, they don't redownload common code.
+  * **É como browserify** mas pode dividir sua aplicação em múltiplos arquivos. Se você tem múltiplas páginas na sua single-page application, o usuário baixa o código apenas para aquela página. Se ele vai para outra página, ele não irá baixar novamente código em comum.
 
-  * **It often replaces grunt or gulp** because it can build and bundle CSS, preprocessed CSS, compile-to-JS languages and images, among other things.
+  * **Frequentemente substitui grunt ou gulp** pois pode buildar e empacotar CSS, CSS pré-processado, linguagens que compilam para JS e imagens, entre outras coisas.
 
-It supports AMD and CommonJS, among other module systems (Angular, ES6). If you don't know what to use, use CommonJS.
+Suporta AMD e CommonJS, entre outros sistemas modulares (Angular, ES6). Se você não sabe o que usar, use CommonJS.
 
-## 2. Webpack for Browserify people
+## 2. Webpack pra quem usa Browserify
 
-These are equivalent:
+Esses são equivalentes:
 
 ```js
 browserify main.js > bundle.js
@@ -35,7 +35,7 @@ browserify main.js > bundle.js
 webpack main.js bundle.js
 ```
 
-However, webpack is more powerful than Browserify, so you generally want to make a `webpack.config.js` to keep things organized:
+Porém, webpack é mais poderoso que o Browserify, sendo assim você geralmente irá querer criar um arquivo `webpack.config.js` pra manter as coisas organizadas:
 
 ```js
 // webpack.config.js
@@ -47,22 +47,22 @@ module.exports = {
 };
 ```
 
-This is just JS, so feel free to put Real Code in there.
+Isso é só JS, então sinta-se livre pra colocar código de verdade lá.
 
-## 3. How to invoke webpack
+## 3. Como invocar webpack
 
-Switch to the directory containing `webpack.config.js` and run:
+Mude para o diretório contendo `webpack.config.js` e execute:
 
-  * `webpack` for building once for development
-  * `webpack -p` for building once for production (minification)
-  * `webpack --watch` for continuous incremental build in development (fast!)
-  * `webpack -d` to include source maps
+  * `webpack` pra buildar uma vez para o desenvolvimento
+  * `webpack -p` pra buildar uma vez para produção (minificação)
+  * `webpack --watch` pra buildar continuamente de forma incremental no desenvolvimento (rápido!)
+  * `webpack -d` para incluir source maps
 
-## 4. Compile-to-JS languages
+## 4. Linguagens que compilam para JS
 
-webpack's equivalent of browserify transforms and RequireJS plugins is a **loader**. Here's how you can teach webpack to load CoffeeScript and Facebook JSX+ES6 support (you must `npm install babel-loader coffee-loader`):
+O equivalente do webpack para os plugins transform e RequireJS do browserify é um **loader**. Aqui está como você pode ensinar webpack a carregar o suporte para CoffeeScript e Facebook JSX+ES6 (execute `npm install babel-loader coffee-loader`):
 
-See also the [babel-loader installation instructions](https://www.npmjs.com/package/babel-loader) for additional dependencies (tl;dr run `npm install babel-core babel-preset-es2015 babel-preset-react`).
+Veja também [instruções de instalação do babel-loader](https://www.npmjs.com/package/babel-loader) para dependências adicionais (tl;dr execute `npm install babel-core babel-preset-es2015 babel-preset-react`).
 
 ```js
 // webpack.config.js
@@ -86,7 +86,7 @@ module.exports = {
 };
 ```
 
-To enable requiring files without specifying the extension, you must add a `resolve.extensions` parameter specifying which files webpack searches for:
+Para habilitar requisição de arquivos sem especificar a extensão, você deve adicionar um parâmetro `resolve.extensions` especificando quais arquivos o webpack deve procurar:
 
 ```js
 // webpack.config.js
@@ -108,7 +108,7 @@ module.exports = {
     ]
   },
   resolve: {
-    // you can now require('file') instead of require('file.coffee')
+    // agora você pode usar require('file') ao invés de require('file.coffee')
     extensions: ['', '.js', '.json', '.coffee'] 
   }
 };
@@ -267,13 +267,15 @@ output: {
 }
 ```
 
-## Additional resources
+## Recursos Adicionais
 
-Take a look at a real world example on how a successful team is leveraging webpack: http://youtu.be/VkTCL6Nqm6Y
-This is Pete Hunt at OSCon talking about webpack at Instagram.com
+Dê uma olhada em um exemplo real de como uma equipe bem sucedida está alavancando o webpack: http://youtu.be/VkTCL6Nqm6Y
+Este é pete Hunt na OSCon falando sobre o uso de webpack no Instagram.com
 
 ## FAQ
 
-### webpack doesn't seem modular
+### webpack não parece modular
 
-webpack is **extremely** modular. What makes webpack great is that it lets plugins inject themselves into more places in the build process when compared to alternatives like browserify and requirejs. Many things that may seem built into the core are just plugins that are loaded by default and can be overridden (i.e. the CommonJS require() parser).
+webpack é **extremamente** modular. O que faz o webpack excelente é que ele deixa plugins se injetarem em mais lugares no processo de build quando comparado à alternativas como browserify e requirejs. Muitas coisas que podem parecer nativas são apenas plugins que são carregados por padrão e podem ser sobrecarregados (ex: o parser require() do CommonJS).
+
+
