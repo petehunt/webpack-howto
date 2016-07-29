@@ -1,18 +1,18 @@
-# webpack-howto
+# Web-pack Guia Inicial
 
-## Goal of this guide
+## Objetivo deste guia
 
-This is a cookbook of how to get things done with webpack. This includes most things we use at Instagram and nothing we don't use.
+Este é um guia de como fazer as "coisas" utilizando o webpack. Este guia inclui a maioria das coisas que utilizamos no Instagram e "nada que não utilizamos".
 
-My advice: start with this as your webpack docs, then look at the official docs for clarification.
+Meu conselho: comece com este guia como se fosse a documentação do webpack, e então apenas utilize a documentação oficial para esclarecimento.
 
-## Prerequisites
+## Pré-requisitos
 
-  * You know browserify, RequireJS or something similar
-  * You see the value in:
-    * Bundle splitting
-    * Async loading
-    * Packaging static assets like images and CSS
+  * Conhecer browserify, RequireJS ou alguma ferramenta similar
+  * Ver o valor de:
+    * Divisão de pacotes
+    * Carregamento Assícrono
+    * Empacotamento de recursos estáticos, como imagens e CSS
 
 ## 1. Why webpack?
 
