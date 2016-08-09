@@ -44,14 +44,14 @@ module.exports = {
 };
 ```
 
-这就是单纯的JS，所有写这个配置文件毫无压力。
+这就是单纯的JS，所以写这个配置文件毫无压力。
 
 ## 3. 如何调用webpack
 
 选择一个目录下有`webpack.config.js`文件的文件夹，然后运行下面的命令:
 
   * `webpack` 开发环境下编译
-  * `webpack -p` 产品编译及压缩
+  * `webpack -p` 生产环境下编译及压缩, 等同于--optimize-minimize(性能最优压缩)
   * `webpack --watch` 开发环境下持续的监听文件变动来进行编译(非常快!)
   * `webpack -d` 引入 source maps
 
@@ -235,14 +235,14 @@ module.exports = {
 
 ## 9. 异步加载
 
-虽然CommonJS是同步加载的，但是webpack也提供了异步加载的方式。这对于单页应用中使用的客户端路由非常有用。当真正路由到了某个页面的时候，它的代码才会被加载下来。
+虽然CommonJS是同步加载的，但是webpack也提供了异步加载的方式。这对于单页应用中使用的客户端路由非常有用。当真正需要某个页面的时候，它的代码才会被加载下来。
 
 指定你要异步加载的 **拆分点**。看下面的例子
 
 ```js
 if (window.location.pathname === '/feed') {
   showLoadingState();
-  require.ensure([], function() { // 这个语法痕奇怪，但是还是可以起作用的
+  require.ensure([], function() { // 这个语法很奇怪，但是还是可以起作用的
     hideLoadingState();
     require('./feed').show(); // 当这个函数被调用的时候，此模块是一定已经被同步加载下来了
   });
