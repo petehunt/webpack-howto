@@ -33,6 +33,7 @@ webpack main.js bundle.js
 ```
 
 然而，webpack要比Browserify强大。所以一般情况下你需要建立一个`webpack.config.js`文件来配置webpack。
+
 ```js
 // webpack.config.js
 module.exports = {
