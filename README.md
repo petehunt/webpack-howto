@@ -109,7 +109,7 @@ module.exports = {
   },
   resolve: {
     // you can now require('file') instead of require('file.coffee')
-    extensions: ['', '.js', '.json', '.coffee'] 
+    extensions: ['', '.js', '.json', '.coffee']
   }
 };
 ```
@@ -266,6 +266,41 @@ output: {
     publicPath: "/assets/" //path that will be considered when requiring your files
 }
 ```
+
+## 9. Automate HTML generation.
+
+`html-webpack-plugin` is a webpack plugin that simplifies creation of HTML files to serve your webpack bundles. This is especially useful for webpack bundles that include a hash in the filename which changes every compilation. You can either let the plugin generate an HTML file for you, supply your own template using lodash templates or use your own loader. The plugin will generate an HTML5 file for you that includes all your webpack bundles in the body using script tags. Just add the plugin to your webpack config as follows.
+
+```javascript
+var HtmlWebpackPlugin = require('html-webpack-plugin');
+var webpackConfig = {
+  entry: 'index.js',
+  output: {
+    path: 'dist',
+    filename: 'index_bundle.js'
+  },
+  plugins: [new HtmlWebpackPlugin()]
+};
+```
+This will generate a file dist/index.html containing the following:
+
+```html
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Webpack App</title>
+  </head>
+  <body>
+    <script src="index_bundle.js"></script>
+  </body>
+</html>
+```
+
+If you have multiple webpack entry points, they will all be included with script tags in the generated HTML.
+If you have any CSS assets in webpack's output (for example, CSS extracted with the ExtractTextPlugin) then these will be included with <link> tags in the HTML head.
+
+
 
 ## Additional resources
 
