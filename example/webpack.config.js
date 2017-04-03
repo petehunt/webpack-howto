@@ -7,10 +7,7 @@ module.exports = {
     loaders: [
       {
         test: /\.js$/,
-        loader: 'babel-loader',
-        query: {
-          presets: ['es2015', 'react']
-        }
+        loader: 'babel-loader'
       },
       { test: /\.less$/, loader: 'style-loader!css-loader!less-loader' }, // use ! to chain loaders
       { test: /\.css$/, loader: 'style-loader!css-loader' },
