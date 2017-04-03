@@ -12,7 +12,7 @@
   "devDependencies": {
     "babel-core": "^6.24.0",
     "babel-loader": "^6.4.1",
-    "babel-preset-es2015": "^6.24.0",
+    "babel-preset-env": "^1.3.2",
     "babel-preset-react": "^6.23.0",
     "bundle-loader": "^0.5.0",
     "css-loader": "^0.9.0",
@@ -21,7 +21,7 @@
     "less-loader": "^0.7.7",
     "style-loader": "^0.8.0",
     "url-loader": "^0.5.5",
-    "webpack": "^2.3.2",
+    "webpack": "^2.3.3",
     "webpack-dev-server": "^2.4.2"
   },
   "dependencies": {
