@@ -1,10 +1,10 @@
 # webpack-howto
 
-## Goal of this guide
+## Στόχος για αυτόν τον οδηγό
 
-This is a cookbook of how to get things done with webpack. This includes most things we use at Instagram and nothing we don't use.
+Αυτό είναι ένα σύνολο συμβουλών για το πως να κάνετε πράγματα με το webpack. Επίσης περιλαμβάνει μόνο πράγματα που χρησιμοποιούμε στο Instagram.
 
-My advice: start with this as your webpack docs, then look at the official docs for clarification.
+Η συμβουλή μου: ξεκινείστε με αυτό ως webpack docs και μετά κοιτάξτε τα επίσημα docs.
 
 ## Prerequisites
 
