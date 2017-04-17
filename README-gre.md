@@ -58,11 +58,11 @@ module.exports = {
   * `webpack --watch` για συνεχή σταδιακή ανάπτυξη (γρήγορο!)
   * `webpack -d` για να περιλαμβάνετε και τα source maps
 
-## 4. Compile-to-JS languages
+## 4. Compile-to-JS γλώσσες
 
-webpack's equivalent of browserify transforms and RequireJS plugins is a **loader**. Here's how you can teach webpack to load CoffeeScript and Facebook JSX+ES6 support (you must `npm install babel-loader coffee-loader`):
+Τα αντίστοιχα transforms του browserify και τα plugins για το RequireJS είναι τα **loader**. Ορίστε πως μπορείτε να μάθετε στο webpack πως να φορτώνει CoffeeScript και το JSX+ES6 του Facebook (πρέπει να τρέξετε `npm install babel-loader coffee-loader`):
 
-See also the [babel-loader installation instructions](https://www.npmjs.com/package/babel-loader) for additional dependencies (tl;dr run `npm install babel-core babel-preset-es2015 babel-preset-react`).
+Κοιτάξτε επίσης το [babel-loader installation instructions](https://www.npmjs.com/package/babel-loader) για επιπλέον dependencies (tl;dr τρέξτε `npm install babel-core babel-preset-es2015 babel-preset-react`).
 
 ```js
 // webpack.config.js
@@ -86,7 +86,7 @@ module.exports = {
 };
 ```
 
-To enable requiring files without specifying the extension, you must add a `resolve.extensions` parameter specifying which files webpack searches for:
+Για να ενεργοποιήσετε απαιτούμενα αρχεία χωρίς να προσδιορίζετε το extension, πρέπει να προσθέσετε μια `resolve.extensions` παράμετρο προσδιορίζοντας ποια αρχεία να ψάξει το webpack:
 
 ```js
 // webpack.config.js
@@ -108,7 +108,7 @@ module.exports = {
     ]
   },
   resolve: {
-    // you can now require('file') instead of require('file.coffee')
+    // μπορείτε πλεον να κάνετε require('file') αντί για require('file.coffee')
     extensions: ['', '.js', '.json', '.coffee']
   }
 };
