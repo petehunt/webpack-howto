@@ -14,14 +14,14 @@
     * Async loading
     * Packaging static assets όπως εικόνες και CSS
 
-## 1. Why webpack?
+## 1. Γιατί webpack?
 
 
-  * **It's like browserify** but can split your app into multiple files. If you have multiple pages in a single-page app, the user only downloads code for just that page. If they go to another page, they don't redownload common code.
+  * **Είναι σαν το browserify**, αλλά μπορεί να χωρίσει την εφαρμογή σας σε πολλαπλά αρχεία. Αν έχετε πολλαπλές σελίδες σε μια μονοσέλιδη εφαρμογή, ο χρήστης κατεβάζει κώδικα μόνο για αυτή τη σελίδα. Αν πάνε σε άλλη σελίδα, δεν ξανακατεβάζουν τον κοινό κώδικα.
 
-  * **It often replaces grunt or gulp** because it can build and bundle CSS, preprocessed CSS, compile-to-JS languages and images, among other things.
+  * **Συχνά αντικαθιστά το grunt ή το gulp** γιατί μπορεί να χτίσει και να δεσμεύσει CSS, preprocessed CSS, compile-to-JS γλώσσες και εικόνες μέσα σε άλλα πράγματα.
 
-It supports AMD and CommonJS, among other module systems (Angular, ES6). If you don't know what to use, use CommonJS.
+Υποστηρίζει AMD και CommonJS, όπως και άλλα module systems (Angular, ES6). Αν δεν ξέρετε τι να χρησιμοποιήσετε, χρησιμοποιήστε CommonJS.
 
 ## 2. Webpack for Browserify people
 
