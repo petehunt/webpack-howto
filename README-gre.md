@@ -23,9 +23,9 @@
 
 Υποστηρίζει AMD και CommonJS, όπως και άλλα module systems (Angular, ES6). Αν δεν ξέρετε τι να χρησιμοποιήσετε, χρησιμοποιήστε CommonJS.
 
-## 2. Webpack for Browserify people
+## 2. Webpack για ανθρώπους με γνώσεις στο Browserify
 
-These are equivalent:
+Αυτά είναι αντίστοιχα:
 
 ```js
 browserify main.js > bundle.js
@@ -35,7 +35,7 @@ browserify main.js > bundle.js
 webpack main.js bundle.js
 ```
 
-However, webpack is more powerful than Browserify, so you generally want to make a `webpack.config.js` to keep things organized:
+Ωστόσο, το webpack είναι πιο δυνατό από το Browserify, οπότε γενικά θέλετε να κάνετε ένα `webpack.config.js` για να έχετε τα πράγματά σας οργανωμένα:
 
 ```js
 // webpack.config.js
@@ -47,7 +47,7 @@ module.exports = {
 };
 ```
 
-This is just JS, so feel free to put Real Code in there.
+Αυτό είναι απλά JS, οπότε μπορείτε να βάλετε κανονικό κώδικα εκεί μέσα.
 
 ## 3. How to invoke webpack
 
