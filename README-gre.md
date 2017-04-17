@@ -6,13 +6,13 @@
 
 Η συμβουλή μου: ξεκινείστε με αυτό ως webpack docs και μετά κοιτάξτε τα επίσημα docs.
 
-## Prerequisites
+## Προαπαιτούμενα
 
-  * You know browserify, RequireJS or something similar
-  * You see the value in:
+  * Ξέρετε browserify, RequireJS ή κάτι παρόμοιο
+  * Βλέπετε τα θετικά των:
     * Bundle splitting
     * Async loading
-    * Packaging static assets like images and CSS
+    * Packaging static assets όπως εικόνες και CSS
 
 ## 1. Why webpack?
 
