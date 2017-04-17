@@ -49,14 +49,14 @@ module.exports = {
 
 Αυτό είναι απλά JS, οπότε μπορείτε να βάλετε κανονικό κώδικα εκεί μέσα.
 
-## 3. How to invoke webpack
+## 3. Πως να χρησιμοποιείτε το webpack
 
-Switch to the directory containing `webpack.config.js` and run:
+Πηγαίντε στο directory που περιέχει το `webpack.config.js` και τρέξτε:
 
-  * `webpack` for building once for development
-  * `webpack -p` for building once for production (minification)
-  * `webpack --watch` for continuous incremental build in development (fast!)
-  * `webpack -d` to include source maps
+  * `webpack` για να χτίζετε μια φορά για τον προγραμματισμό
+  * `webpack -p` για να χτίζετε μια φορά για παραγωγή (minification)
+  * `webpack --watch` για συνεχή σταδιακή ανάπτυξη (γρήγορο!)
+  * `webpack -d` για να περιλαμβάνετε και τα source maps
 
 ## 4. Compile-to-JS languages
 
