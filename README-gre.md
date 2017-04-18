@@ -186,9 +186,9 @@ module.exports = {
 
 Μετά μπορείτε να χτίσετε με `BUILD_DEV=1 BUILD_PRERELEASE=1 webpack` από το console. Σημειώστε πως αφού το `webpack -p` τρέχει το uglify, οτιδήποτε μέσα σε κάποιο από αυτά τα blocks θα το πετάξει έξω, οπότε δεν θα φανερωθούν μυστικά features ή strings.
 
-## 7. Multiple entrypoints
+## 7. Πολλαπλά entrypoints
 
-Let's say you have a profile page and a feed page. You don't want to make the user download the code for the feed if they just want the profile. So make multiple bundles: create one "main module" (called an entrypoint) per page:
+Ας πούμε πως έχετε μια σελίδα profile και μια news feed. Δεν θέλετε ο χρήστης να κατεβάζει τον κώδικα για το feed αν χρησιμοποιούν απλά το profile. Οπότε ας δημιουργήσουμε πολλαπλά bundles: ένα "main module" (ονομαζόμενο entrypoint) ανά σελίδα:
 
 ```js
 // webpack.config.js
@@ -199,12 +199,12 @@ module.exports = {
   },
   output: {
     path: 'build',
-    filename: '[name].js' // Template based on keys in entry above
+    filename: '[name].js' // Template βασισμένο σε keys στο παραπάνω entry
   }
 };
 ```
 
-For profile, insert `<script src="build/Profile.js"></script>` into your page. Do a similar thing for feed.
+Για το profile, εισάγετε `<script src="build/Profile.js"></script>` στην σελίδα σας. Κάντε παρόμοια για το feed.
 
 ## 8. Optimizing common code
 
