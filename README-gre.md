@@ -206,9 +206,9 @@ module.exports = {
 
 Για το profile, εισάγετε `<script src="build/Profile.js"></script>` στην σελίδα σας. Κάντε παρόμοια για το feed.
 
-## 8. Optimizing common code
+## 8. Βελτιστωποίηση κοινού κώδικα
 
-Feed and Profile share a lot in common (like React and the common stylesheets and components). webpack can figure out what they have in common and make a shared bundle that can be cached between pages:
+Το feed και το profile μοιράζονται πολλά (όπως το React και τα κοινά stylesheets και components). Το webpack μπορεί να καταλάβει ποια κοινά έχουν και να δημιουργήσει ένα κοινό bundle που μπορεί να γίνει cached μεταξύ σελίδων:
 
 ```js
 // webpack.config.js
@@ -225,13 +225,13 @@ module.exports = {
   },
   output: {
     path: 'build',
-    filename: '[name].js' // Template based on keys in entry above
+    filename: '[name].js' // Template βασισμένο σε keys στο παραπάνω entry
   },
   plugins: [commonsPlugin]
 };
 ```
 
-Add `<script src="build/common.js"></script>` before the script tag you added in the previous step and enjoy the free caching.
+Προσθέστε `<script src="build/common.js"></script>` πριν το script tag που προσθέσατε στο προηγούμενο βήμα και απολαύστε τσάμπα caching.
 
 ## 9. Async loading
 
