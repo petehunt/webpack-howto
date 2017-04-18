@@ -263,17 +263,17 @@ if (window.location.pathname === '/feed') {
 // webpack.config.js
 output: {
     path: "/home/proj/public/assets", //path στο οποίο το webpack θα χτίσει τα πράγματά σας
-    publicPath: "/assets/" //path που θα θεωρηθεί όταν κάνετε require τα αρχεία σας 
+    publicPath: "/assets/" //path που θα θεωρηθεί όταν κάνετε require τα αρχεία σας
 }
 ```
 
-## Additional resources
+## Επιπλέον resources
 
-Take a look at a real world example on how a successful team is leveraging webpack: http://youtu.be/VkTCL6Nqm6Y
-This is Pete Hunt at OSCon talking about webpack at Instagram.com
+Ρίξτε μια ματιά σε ένα πραγματικό παράδειγμα για να δείτε πως μια πετυχιμένη ομάδα χρησιμοποιεί το webpack: http://youtu.be/VkTCL6Nqm6Y
+Αυτό είναι ο Pete Hunt στο OSCon που μιλάει για το webpack στο Instagram.com
 
 ## FAQ
 
-### webpack doesn't seem modular
+### webpack δεν φαίνεται modular
 
-webpack is **extremely** modular. What makes webpack great is that it lets plugins inject themselves into more places in the build process when compared to alternatives like browserify and requirejs. Many things that may seem built into the core are just plugins that are loaded by default and can be overridden (i.e. the CommonJS require() parser).
+Το webpack είναι **απίστευτα** modular. Αυτό που κάνει το webpack σπουδαίο είναι πως αφήνει plugins να εκτελούνται σε πιο πολλά μέρη κατά τη διάρκεια του build process, συγκρινόμενο με άλλες εναλλακτικές όπως το browserify και requirejs. Πολλά πράγματα που φαίνονται χτισμένα στο core είναι απλά plugins που φορτώνονται από προεπιλογή και μπορούν να γίνουν overridden (π.χ. το CommonJS require() parser).
