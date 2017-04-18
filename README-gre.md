@@ -235,16 +235,16 @@ module.exports = {
 
 ## 9. Async loading
 
-CommonJS is synchronous but webpack provides a way to asynchronously specify dependencies. This is useful for client-side routers, where you want the router on every page, but you don't want to have to download features until you actually need them.
+CommonJS είναι synchronous αλλά το webpack μας επιτρέπει έναν τρόπο να προσδιορίσουμε dependencies asynchronously. Αυτό είναι χρήσιμο για client-side routers, όπου θέλετε ένα router σε κάθε σελίδα, αλλά δεν θέλετε να πρέπει να κατεβάσετε features πριν τα χρειαστείτε.
 
-Specify the **split point** where you want to load asynchronously. For example:
+Προσδιορίστε το **split point** όπου θέλετε να φορτώσετε asynchronously. Για παράδειγμα:
 
 ```js
 if (window.location.pathname === '/feed') {
   showLoadingState();
-  require.ensure([], function() { // this syntax is weird but it works
+  require.ensure([], function() { // αυτό το συντακτικό είναι περίεργο αλλά λειτουργεί
     hideLoadingState();
-    require('./feed').show(); // when this function is called, the module is guaranteed to be synchronously available.
+    require('./feed').show(); // όταν αυτό το function καλείται, το module είναι σίγουρο ότι θα είναι synchronously διαθέσιμο.
   });
 } else if (window.location.pathname === '/profile') {
   showLoadingState();
@@ -255,15 +255,15 @@ if (window.location.pathname === '/feed') {
 }
 ```
 
-webpack will do the rest and generate extra **chunk** files and load them for you.
+Το webpack θα κάνει τα υπόλοιπα και θα δημιουργήσει έξτρα **chunk** αρχεία και θα τα φορτώσει για σας.
 
-webpack will assume that those files are in your root directory when you load then into a html script tag for example. You can use `output.publicPath` to configure that.
+Το webpack θα θεωρήσει ότι αυτά τα αρχεία είναι στο root directory όταν τα φορτώνετε σε ένα html script tag για παράδειγμα. Μπορείτε να χρησιμοποιείτε `output.publicPath` για να το διαμορφώσετε αυτό.
 
 ```js
 // webpack.config.js
 output: {
-    path: "/home/proj/public/assets", //path to where webpack will build your stuff
-    publicPath: "/assets/" //path that will be considered when requiring your files
+    path: "/home/proj/public/assets", //path στο οποίο το webpack θα χτίσει τα πράγματά σας
+    publicPath: "/assets/" //path που θα θεωρηθεί όταν κάνετε require τα αρχεία σας 
 }
 ```
 
