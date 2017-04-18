@@ -152,7 +152,7 @@ module.exports = {
 
 ## 6. Feature flags
 
-We have code we want to gate only to our dev environments (like logging) and our internal dogfooding servers (like unreleased features we're testing with employees). In your code, refer to magic globals:
+Έχουμε κώδικα που θέλουμε να κάνουμε gate μόνο στο dev περιβάλλον μας (όπως το logging) και τα εσωτερικά dogfooding servers (όπως unreleased features που τεστάρουμε). Στον κώδικά σας αναφέρονται ως magic globals:
 
 ```js
 if (__DEV__) {
@@ -164,12 +164,12 @@ if (__PRERELEASE__) {
 }
 ```
 
-Then teach webpack those magic globals:
+Μετά μάθετε το webpack αυτά τα magic globals:
 
 ```js
 // webpack.config.js
 
-// definePlugin takes raw strings and inserts them, so you can put strings of JS if you want.
+// definePlugin παίρνει strings και τα βάζει, οπότε μπορείτε να βάλετε JS strings αν θέλετε.
 var definePlugin = new webpack.DefinePlugin({
   __DEV__: JSON.stringify(JSON.parse(process.env.BUILD_DEV || 'true')),
   __PRERELEASE__: JSON.stringify(JSON.parse(process.env.BUILD_PRERELEASE || 'false'))
@@ -184,7 +184,7 @@ module.exports = {
 };
 ```
 
-Then you can build with `BUILD_DEV=1 BUILD_PRERELEASE=1 webpack` from the console. Note that since `webpack -p` runs uglify dead-code elimination, anything wrapped in one of these blocks will be stripped out, so you won't leak secret features or strings.
+Μετά μπορείτε να χτίσετε με `BUILD_DEV=1 BUILD_PRERELEASE=1 webpack` από το console. Σημειώστε πως αφού το `webpack -p` τρέχει το uglify, οτιδήποτε μέσα σε κάποιο από αυτά τα blocks θα το πετάξει έξω, οπότε δεν θα φανερωθούν μυστικά features ή strings.
 
 ## 7. Multiple entrypoints
 
